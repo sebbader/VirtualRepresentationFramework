@@ -1,0 +1,118 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 14.03.2018, 13:45:58
+    Author     : Jan-Peter.Schmidt
+*/
+
+h1, h2 {
+    
+    text-align:center;
+    
+}
+
+div.row {
+    
+    display:flex;
+    margin-top:1.5%;
+    
+}
+
+div.row div.col-sm {
+    
+    margin:2.5%;
+    flex:1;
+    text-align:center;
+    
+}
+
+div.row div.col-sm p {
+    
+    text-align:justify;
+    
+}
+
+span.icon {
+    
+    width:100%;
+    font-size:45px;
+    text-align:center;
+    
+}
+
+footer {
+    
+    text-align:center;
+    font-size:10px;
+    
+}
+
+div.input-group-prepend {
+    
+    display: flex;
+    white-space: nowrap;
+    
+}
+
+div#inputGroupPrepend {
+    
+    background-color: #f1f1f1;
+    font-weight: bold;
+    font-size: 11px;  
+    padding:9px;    
+    
+}
+
+div.input-group {
+    
+    display:block;
+    
+}
+
+
+div#result.alert {
+
+    width:50%;
+    margin-left:auto;
+    margin-right:auto;
+
+}
+
+.btn {
+
+    margin:5px;
+
+}
+
+.btn-secondary-own {
+
+    border:1px solid #2a518e;
+
+}
+
+div#containerManager {
+    
+    padding:2.5%; 
+    flex-grow: 0.9;
+    flex-basis: 0;
+    border: 1px solid #c5c5c5;
+    border-radius:3px;
+    
+}
+
+div#tabs {
+    
+    flex-grow:0.1;
+    margin-right:0.5%;
+    padding:0;
+    
+}
+
+div#respondContainer {
+    
+    margin:1.5%;
+    
+}

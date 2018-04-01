@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN"
+        "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
+<urlrewrite>
+    <!--<rule>
+        <from>/test123</from>
+        <to>/abc123</to>
+    </rule>-->
+    <rule>
+        <note>
+            Fitler for checking if file exists.
+        </note>
+        <condition name="upgrade">websocket*</condition>
+        <from>/avatars/(\w+)</from>
+        <to type="forward">/avatars?uri=$1</to>
+        <!--<run class="controller.communication.WebSocketCommunication" method="redirect" />-->
+    </rule>
+</urlrewrite>
