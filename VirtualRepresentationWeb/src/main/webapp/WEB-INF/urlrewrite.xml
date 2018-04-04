@@ -7,12 +7,8 @@
         <to>/abc123</to>
     </rule>-->
     <rule>
-        <note>
-            Fitler for checking if file exists.
-        </note>
         <condition name="upgrade">websocket*</condition>
-        <from>/avatars/(\w+)</from>
-        <to type="forward">/avatars?uri=$1</to>
-        <!--<run class="controller.communication.WebSocketCommunication" method="redirect" />-->
+        <from>/representations/(\w+)</from>
+        <to type="forward">/representations?uri=$1</to>
     </rule>
 </urlrewrite>

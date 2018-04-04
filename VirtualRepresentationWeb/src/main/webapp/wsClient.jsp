@@ -49,7 +49,7 @@
     <body>
         <h1>WS Client.</h1>
         <form>
-            Adresse: <input type="text" id="addr" value="ws://localhost:8080/avatars/10011234/123" style="width:300px;"><br><br>
+            Adresse: <input type="text" id="addr" value="ws://localhost:8080/representations/10011234/123" style="width:300px;"><br><br>
             <input type="button" onClick="restartSocket(document.getElementById('addr').value);" value="Websocket öffnen">
         </form>
         <div id="console">

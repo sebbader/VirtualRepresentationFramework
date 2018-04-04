@@ -1,5 +1,5 @@
 <%-- 
-    Document   : avatarmanager
+    Document   : virtrepmanager
     Created on : 23.02.2018, 09:50:46
     Author     : Jan-Peter.Schmidt
 --%>
@@ -10,7 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta http-equiv="refresh" content="2">
-        <title>AvatarManager</title>
+        <title>Virtual Representation Manager</title>
         
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
@@ -25,8 +25,8 @@
     </head>
     <body>
         <div class="container">
-            <h3>AvatarManager</h3>
-            <%@ include file="avatarOverviewTable.jsp" %>
+            <h3>Virtual Representation Manager</h3>
+            <%@ include file="virtrepOverviewTable.jsp" %>
         </div>
     </body>
 </html>

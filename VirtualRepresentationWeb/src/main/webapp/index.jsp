@@ -38,11 +38,11 @@
         <!-- Own JS Script -->
         <script src="sendFunctions.js"></script>
         
-        <title>Avatarframework Home</title>
+        <title>Virtual Representation Framework - Home</title>
     </head>
     <body>
         <div class="container">
-            <h1>Avatarframework</h1>
+            <h1>Virtual Representation Framework</h1>
             <div class="row">
                 <div class="col-sm">
                     <h2><a href="/console.jsp">Console</a></h2>

@@ -1,5 +1,5 @@
 <%-- 
-    Document   : avatarOverviewTable
+    Document   : virtrepOverviewTable
     Created on : 02.03.2018, 11:41:53
     Author     : Jan-Peter.Schmidt
 --%>
@@ -7,8 +7,8 @@
 <%@page import="java.util.Map"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.HashMap"%>
-<%@page import="core.controller.avatars.Avatar"%>
-<%@page import="core.controller.avatars.AvatarManager"%>
+<%@page import="core.controller.virtualrepresentations.VirtualRepresentation"%>
+<%@page import="core.controller.virtualrepresentations.VirtualRepresentationManager"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
             <table class="table table-striped">
                 <tr>
@@ -19,35 +19,35 @@
                     <th>URI</th>
                 </tr>
                 <%
-                    HashMap<String, Avatar> map = AvatarManager.getRegisteredAvatars();
+                    HashMap<String, VirtualRepresentation> map = VirtualRepresentationManager.getRegisteredRepresentations();
                     
                     if(map.size()==0) {
                         
-                        out.write("<tr><td colspan=\"5\"><div class=\"alert alert-warning\">No avatars registered in AvatarManager.</div></td></tr>");
+                        out.write("<tr><td colspan=\"5\"><div class=\"alert alert-warning\">No representations registered in RepresentationManager.</div></td></tr>");
                         
                     }
                     
-                    Iterator<Entry<String,Avatar>> iterator = map.entrySet().iterator();
+                    Iterator<Entry<String,VirtualRepresentation>> iterator = map.entrySet().iterator();
                     while(iterator.hasNext()) {
                         
-                        Entry<String, Avatar> entry = iterator.next();
+                        Entry<String, VirtualRepresentation> entry = iterator.next();
                         String name = entry.getKey();
-                        Avatar avatar = entry.getValue();
+                        VirtualRepresentation representation = entry.getValue();
                         String host = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
                         String dataacquisition = " - ";
                         String dataaggregation = " - ";
                         String datamodel = " - ";
                         
                         
-                        if(avatar!=null && avatar.getDataAcquisition()!=null) {
+                        if(representation!=null && representation.getDataAcquisition()!=null) {
                             
-                            dataacquisition = avatar.getDataAcquisition().getGraph().size() + " Triples";
+                            dataacquisition = representation.getDataAcquisition().getGraph().size() + " Triples";
                             
                         }                        
                         
-                        if(avatar!=null && avatar.getDataAggregation()!=null) {
+                        if(representation!=null && representation.getDataAggregation()!=null) {
                             
-                            switch(avatar.getDataAggregation().getQueryType()) {
+                            switch(representation.getDataAggregation().getQueryType()) {
                                 case 111:
                                     dataaggregation = "SELECT";
                                     break;
@@ -67,9 +67,9 @@
                             
                         }
                         
-                        if(avatar!=null && avatar.collectData()!=null) {
+                        if(representation!=null && representation.collectData()!=null) {
                             
-                            datamodel = avatar.collectData().getGraph().size() + " Triples";
+                            datamodel = representation.collectData().getGraph().size() + " Triples";
                             
                         }                        
                         
@@ -78,7 +78,7 @@
                                 + "<td>" + dataacquisition + "</td>"
                                 + "<td>" + dataaggregation + "</td>"
                                 + "<td>" + datamodel + "</td>"
-                                + "<td><a href=\"" + host + "/avatars/" + name +"\" target=\"_blank\">" + host + "/avatars/" + name +"</a></td>"
+                                + "<td><a href=\"" + host + "/representations/" + name +"\" target=\"_blank\">" + host + "/representations/" + name +"</a></td>"
                                 + "</tr>");                                                
                     }                    
                 %>

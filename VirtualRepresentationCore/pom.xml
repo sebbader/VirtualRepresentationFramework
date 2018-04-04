@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>edu.kit.aifb</groupId>
     <artifactId>VirtualRepresentationCore</artifactId>
-    <version>0.1</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -61,5 +61,6 @@
           <artifactId>jaxrs-ri</artifactId>
           <version>2.13</version>
         </dependency>            
-    </dependencies>      
+    </dependencies>
+    <name>VirtualRepresentationCore</name>
 </project>

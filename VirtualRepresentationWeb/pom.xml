@@ -4,7 +4,7 @@
 
     <groupId>edu.kit.aifb</groupId>
     <artifactId>VirtualRepresentationWeb</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>war</packaging>
 
     <name>VirtualRepresentationWeb</name>
@@ -61,8 +61,8 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>AvatarFrameworkCore</artifactId>
-            <version>0.1</version>
+            <artifactId>FrameworkVirtualRepresentationCore</artifactId>
+            <version>1.0</version>
             <type>jar</type>
         </dependency>
         <dependency>

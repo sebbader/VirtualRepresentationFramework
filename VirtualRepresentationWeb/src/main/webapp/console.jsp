@@ -7,8 +7,8 @@
 <%@page import="java.util.Map"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.HashMap"%>
-<%@page import="core.controller.avatars.Avatar"%>
-<%@page import="core.controller.avatars.AvatarManager"%>
+<%@page import="core.controller.virtualrepresentations.VirtualRepresentation"%>
+<%@page import="core.controller.virtualrepresentations.VirtualRepresentationManager"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -48,7 +48,7 @@
             
             $(document).ready(function() { 
                 setInterval(function() {
-                    refreshAvatarTable();
+                    refreshVirtRepTable();
                 },120000);
                 
                 //Tab functionality like: https://jqueryui.com/tabs/
@@ -81,9 +81,9 @@
                                     <label for="validationCustomUsername">Username</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                            <div class="input-group-text" id="inputGroupPrepend">http://${pageContext.request.serverName}:${pageContext.request.localPort}/avatars/</div>
+                                            <div class="input-group-text" id="inputGroupPrepend">http://${pageContext.request.serverName}:${pageContext.request.localPort}/representations/</div>
                                             <input type="text" class="form-control" id="avaName" name="avaName" value="10011234"
-                                               placeholder="Avatarname" aria-describedby="inputGroupPrepend" required>                                            
+                                               placeholder="Representationname" aria-describedby="inputGroupPrepend" required>                                            
                                         </div>
                                     </div>
                                 </div>
@@ -127,9 +127,9 @@
                                     <label for="validationCustomUsername">Username</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                            <div class="input-group-text" id="inputGroupPrepend">ws://${pageContext.request.serverName}:${pageContext.request.localPort}/avatars/</div>
+                                            <div class="input-group-text" id="inputGroupPrepend">ws://${pageContext.request.serverName}:${pageContext.request.localPort}/representations/</div>
                                             <input type="text" class="form-control" id="avaName" name="avaName" value="10011234"
-                                               placeholder="Avatarname" aria-describedby="inputGroupPrepend" required>                                            
+                                               placeholder="Representationname" aria-describedby="inputGroupPrepend" required>                                            
                                         </div>
                                     </div>                                </div>
                                 <div class="form-group">
@@ -175,9 +175,9 @@
                                     <label for="validationCustomUsername">Username</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                            <div class="input-group-text" id="inputGroupPrepend">http://${pageContext.request.serverName}:${pageContext.request.localPort}/avatars/</div>
+                                            <div class="input-group-text" id="inputGroupPrepend">http://${pageContext.request.serverName}:${pageContext.request.localPort}/representations/</div>
                                             <input type="text" class="form-control" id="avaName" name="avaName" value="10011234"
-                                               placeholder="Avatarname" aria-describedby="inputGroupPrepend" required>                                            
+                                               placeholder="Representationnname" aria-describedby="inputGroupPrepend" required>                                            
                                         </div>
                                     </div>
                                 </div>
@@ -205,10 +205,10 @@
                     </div>                    
                 </div>
                 <div class="col" id="containerManager">
-                    <h1>AvatarManager</h1>              
-                    <button type="button" class="btn btn-secondary btn-xs" style="margin:1.5% 0 1.5% 1.5%;" onClick="refreshAvatarTable();" id="reloadButtonManager" 
+                    <h1>Virtual Representation Manager</h1>              
+                    <button type="button" class="btn btn-secondary btn-xs" style="margin:1.5% 0 1.5% 1.5%;" onClick="refreshVirtrepTable();" id="reloadButtonManager" 
                             data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> loading..."><i class="fas fa-sync"></i> Reload</button>
-                    <div id="avatarTable"> <%@ include file="avatarOverviewTable.jsp" %></div>
+                    <div id="virtrepTable"> <%@ include file="virtrepOverviewTable.jsp" %></div>
                 </div>
             </div>
             <div id="respondContainer"></div>

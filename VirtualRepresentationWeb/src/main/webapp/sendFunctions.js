@@ -281,10 +281,10 @@ function xmlToString(xmlData) { // this functions waits jQuery XML
     return xmlString;
 }
 
-function refreshAvatarTable() {
+function refreshVirtrepTable() {
 
     $('#reloadButtonManager').button('loading');
-    $('#avatarTable').load('avatarOverviewTable.jsp').fadeIn("slow", function() {
+    $('#virtrepTable').load('virtrepOverviewTable.jsp').fadeIn("slow", function() {
         $('#reloadButtonManager').button('reset');
     });
     
