@@ -47,6 +47,9 @@ footer {
     
     text-align:center;
     font-size:10px;
+    position:absolute;
+    top:95%;
+    left:45%;
     
 }
 

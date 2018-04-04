@@ -54,7 +54,7 @@
                     </p>
                 </div>
                 <div class="col-sm">
-                    <h2><a href="/">GitHub</a></h2>
+                    <h2><a href="https://github.com/sebbader/VirtualRepresentationFramework">GitHub</a></h2>
                     <span class="icon"><i class="fab fa-github"></i></span>
                     <p>
                         This framework is available on GitHub for easy usage and
@@ -63,13 +63,13 @@
                     </p>
                 </div>
                 <div class="col-sm">
-                    <h2><a href="">Placeholder</a></h2>
-                    <span class="icon"><i class="far fa-edit"></i></span>
+                    <h2><a href="http://www.aifb.kit.edu/web/Web_Science">KIT - WebScience</a></h2>
+                    <span class="icon"><i class="fas fa-graduation-cap"></i></span>
                     <p>
-                        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, 
-                        sed diam nonumy eirmod tempor invidunt ut labore et 
-                        dolore magna aliquyam erat, sed diam voluptua. At vero 
-                        eos et accusam et                        
+                        This project is part of my master-thesis at the Karlsruher 
+                        Institute of technology (KIT). It is developed together with
+                        <a href="http://www.aifb.kit.edu/web/Sebastian_R._Bader">
+                        Sebastian Bader</a> of the web science group.
                     </p>
                 </div>
             </div>
