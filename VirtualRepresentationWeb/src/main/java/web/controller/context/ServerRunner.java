@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import org.eclipse.milo.opcua.sdk.server.OpcUaServer;
+import org.eclipse.milo.opcua.stack.core.Stack;
 import org.eclipse.milo.opcua.stack.core.types.structured.EndpointDescription;
 import web.controller.communication.opcua.VirtualRepresenationOpcUaServer;
 
@@ -41,27 +42,21 @@ public class ServerRunner implements ServletContextListener {
         System.out.println("Shutdown server...");
         if(server!=null) {
             try {
-                final CompletableFuture<OpcUaServer> future = server.shutdown();
-                
-                System.out.println("Shutted down.");
-                
-                future.get();
-                System.out.println("After future.");
-                
+                server.shutdown().get();                                      
+                Stack.releaseSharedResources();
             } catch (InterruptedException ex) {
                 Logger.getLogger(ServerRunner.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ExecutionException ex) {
                 Logger.getLogger(ServerRunner.class.getName()).log(Level.SEVERE, null, ex);
-            }                        
-        }
-        
+            }
+        }        
     }
     
     private void startOPCUAServer() {
         
         System.out.println("Works fine..");
         
-        new Thread(() -> {
+        Thread thread = new Thread(() -> {
             try {
                 
                 System.out.println("Test");
@@ -72,20 +67,20 @@ public class ServerRunner implements ServletContextListener {
                 
                 System.out.println("Server is running");
                 System.out.println("Server url is: " + server.getServer().getConfig().getBindPort());
-                server.getServer().getConfig().getEndpointAddresses().forEach((address) -> {
-                    System.out.println(address);
-                });
                 
-                final CompletableFuture<Void> future = new CompletableFuture<>();
+                /*final CompletableFuture<Void> future = new CompletableFuture<>();
                 
-                Runtime.getRuntime().addShutdownHook(new Thread(() -> future.complete(null)));
+                Runtime.getRuntime().addShutdownHook(new Thread(() -> future.complete(null)));*/
                 
-                future.get();
+                //future.get();
                 
             } catch (Exception ex) {
                 Logger.getLogger(ServerRunner.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }).start();
+        });
+        
+        thread.setName("OPC UA Server");
+        thread.start();
         
         
     }

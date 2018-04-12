@@ -79,10 +79,7 @@ public class ClientRunner {
             endpoints = UaTcpStackClient
                 .getEndpoints(clientExample.getEndpointUrl())
                 .get();
-            
-            ArrayLists.of(endpoints).forEach((endpointDescr) -> {
-                System.out.println("CEU: " + endpointDescr.getEndpointUrl());
-            });
+
         } catch (Throwable ex) {
             ex.printStackTrace();
         }

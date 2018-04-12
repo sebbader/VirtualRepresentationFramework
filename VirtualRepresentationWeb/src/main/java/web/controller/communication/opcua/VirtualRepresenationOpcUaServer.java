@@ -157,11 +157,6 @@ public class VirtualRepresenationOpcUaServer {
     public CompletableFuture<OpcUaServer> startup() {
         System.out.println("Server startup called");
         CompletableFuture<OpcUaServer> future =  server.startup();       
-        for(int i=0; i<server.getEndpointDescriptions().length; i++) {
-            
-            System.out.println(server.getEndpointDescriptions()[i]);
-            
-        }
         
         return future;
     }
