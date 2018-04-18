@@ -3,6 +3,7 @@
     Created on : 02.03.2018, 11:41:53
     Author     : Jan-Peter.Schmidt
 --%>
+<%@page import="org.apache.jena.rdf.model.Model"%>
 <%@page import="java.util.Map.Entry"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.Iterator"%>
@@ -67,9 +68,9 @@
                             
                         }
                         
-                        if(representation!=null && representation.collectData()!=null) {
+                        if(representation!=null) {
                             
-                            datamodel = representation.collectData().getGraph().size() + " Triples";
+                            datamodel = String.valueOf(representation.getModelSize());
                             
                         }                        
                         

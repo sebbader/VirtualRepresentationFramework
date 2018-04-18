@@ -281,7 +281,7 @@ function xmlToString(xmlData) { // this functions waits jQuery XML
     return xmlString;
 }
 
-function refreshVirtrepTable() {
+function refreshVirtRepTable() {
 
     $('#reloadButtonManager').button('loading');
     $('#virtrepTable').load('virtrepOverviewTable.jsp').fadeIn("slow", function() {

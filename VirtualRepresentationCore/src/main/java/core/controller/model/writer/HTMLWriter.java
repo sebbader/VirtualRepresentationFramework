@@ -80,7 +80,7 @@ public class HTMLWriter extends WriterGraphRIOTBase
             
             String headline = "Undefined";
             
-            Property hasValue = VRProp.hasValue;
+            Property hasValue = VRProp.HAS_VALUE;
             Property unitOfMeasure = ResourceFactory.createProperty("https://w3id.org/saref/", "Unit_of_measure");
             
             try {

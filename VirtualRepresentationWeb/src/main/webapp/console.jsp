@@ -206,7 +206,7 @@
                 </div>
                 <div class="col" id="containerManager">
                     <h1>Virtual Representation Manager</h1>              
-                    <button type="button" class="btn btn-secondary btn-xs" style="margin:1.5% 0 1.5% 1.5%;" onClick="refreshVirtrepTable();" id="reloadButtonManager" 
+                    <button type="button" class="btn btn-secondary btn-xs" style="margin:1.5% 0 1.5% 1.5%;" onClick="refreshVirtRepTable();" id="reloadButtonManager" 
                             data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> loading..."><i class="fas fa-sync"></i> Reload</button>
                     <div id="virtrepTable"> <%@ include file="virtrepOverviewTable.jsp" %></div>
                 </div>
