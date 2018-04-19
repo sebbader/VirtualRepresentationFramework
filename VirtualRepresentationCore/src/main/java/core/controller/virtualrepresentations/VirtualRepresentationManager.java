@@ -9,6 +9,7 @@ import core.controller.communication.ReadResponse;
 import core.controller.mediatypes.LDMediaTypes;
 import core.controller.model.writer.HTMLRegistry;
 import core.controller.utils.Utilities;
+import core.controller.utils.VRProp;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -22,6 +23,7 @@ import java.util.Iterator;
 import javax.ws.rs.core.MediaType;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.ext.com.google.common.io.Files;
+import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
@@ -30,6 +32,8 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.rdf.model.SimpleSelector;
 import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.impl.LiteralImpl;
+import org.apache.jena.rdf.model.impl.ResourceImpl;
 
 /**
  * @author Jan-Peter.Schmidt
@@ -44,17 +48,60 @@ public class VirtualRepresentationManager {
     
     public static final String NS_AVA = "http://www.virtualrepresentation-framework.edu/";
     
+    public static String domain = "http://localhost:9999/representations/";
+    
     public static String nsPrefixCustom = "virtrep";
+    
+    static {
+        
+        VirtualRepresentationManager.create("manager");
+        
+        Thread t = new Thread(() -> {
+            
+            VirtualRepresentation manager = null;
+            
+            while(true) {
+                
+                if(manager==null) {
+                    manager = VirtualRepresentationManager.getRepresentation("manager");                    
+                }
+
+                if(manager!=null) {
+
+                    registry = ModelFactory.createDefaultModel();
+                    registeredRepresentations.forEach((name, representation) -> {
+
+                        Resource subject = new ResourceImpl(domain, name);
+                        Property predicate = VRProp.HAS_VALUE;
+
+                        registry.add(subject, predicate, representation.getClass().getName());
+
+                    });
+
+                    manager.setDataAcquisition(registry);
+
+                }
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(VirtualRepresentationManager.class.getName()).log(Level.SEVERE, null, ex);
+                    break;
+                }
+
+            }
+
+        });
+
+        t.setName("ManagerUpdater");
+        t.setDaemon(true);
+        t.start();
+
+    }
     
     public static VirtualRepresentation getRepresentation(String name) {
         
-        System.out.println("Looking for name: " + name);
-        System.out.println("RegistrySize=" + registeredRepresentations.size());
-        
-        registeredRepresentations.forEach((key, value) -> {
-            System.out.println("Key: " + key + ", Value: " + value);
-        });
-        
+        System.out.println("Looking for name: " + name);               
         name = checkName(name);
         
         if(name!=null) {
@@ -498,4 +545,15 @@ public class VirtualRepresentationManager {
         
         return clazz[0];
     }
+
+    public static String getDomain() {
+        return domain;
+    }
+
+    public static void setDomain(String domain) {
+        VirtualRepresentationManager.domain = domain;
+    }
+    
+    
+    
 }

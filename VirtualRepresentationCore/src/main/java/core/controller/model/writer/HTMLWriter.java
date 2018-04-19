@@ -116,29 +116,6 @@ public class HTMLWriter extends WriterGraphRIOTBase
                     
                     unit[0] = unitObject.toString();
 
-                    /*if(unitObject.isLiteral()) {
-
-                        System.out.println("is literal" + unitObject.asLiteral().getString());
-                        unit[0]= unitObject.asLiteral().getString();
-
-                    } else {
-
-                        System.out.println(unitObject.toString() + " is no literal");
-                        Model model2 = ModelFactory.createDefaultModel();
-                        model2.read(unitObject.toString());
-
-                        Property prefLabel = ResourceFactory.createProperty("http://www.w3.org/2004/02/skos/core#", "prefLabel");
-                        
-                        model2.write(System.out);
-                        System.out.println(unitObject.asResource() + " " + prefLabel);
-
-                        if(model2.contains(unitObject.asResource(), prefLabel)) {
-                            model2.listObjectsOfProperty(unitObject.asResource(), prefLabel).toList().forEach((unitLiteral) -> {
-                                System.out.println("prefLabel");
-                                unit[0] = unitLiteral.asLiteral().getString();
-                            });
-                        }
-                    }*/
                 });            
                         
                 if(unit[0]==null) {

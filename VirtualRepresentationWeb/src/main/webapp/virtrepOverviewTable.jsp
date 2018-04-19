@@ -13,7 +13,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
             <table class="table table-striped">
                 <tr>
-                    <th>Name</th>
+                    <th>Type</th>
                     <th>Dataacquisition</th>
                     <th>Dataaggregation</th>
                     <th>Datamodel</th>
@@ -32,8 +32,8 @@
                     while(iterator.hasNext()) {
                         
                         Entry<String, VirtualRepresentation> entry = iterator.next();
-                        String name = entry.getKey();
                         VirtualRepresentation representation = entry.getValue();
+                        String name = representation.getClass().getName();
                         String host = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
                         String dataacquisition = " - ";
                         String dataaggregation = " - ";
@@ -68,6 +68,7 @@
                             
                         }
                         
+                        
                         if(representation!=null) {
                             
                             datamodel = String.valueOf(representation.getModelSize());
@@ -79,7 +80,7 @@
                                 + "<td>" + dataacquisition + "</td>"
                                 + "<td>" + dataaggregation + "</td>"
                                 + "<td>" + datamodel + "</td>"
-                                + "<td><a href=\"" + host + "/representations/" + name +"\" target=\"_blank\">" + host + "/representations/" + name +"</a></td>"
+                                + "<td><a href=\"" + host + "/representations/" + entry.getKey() +"\" target=\"_blank\">" + host + "/representations/" + entry.getKey() +"</a></td>"
                                 + "</tr>");                                                
                     }                    
                 %>

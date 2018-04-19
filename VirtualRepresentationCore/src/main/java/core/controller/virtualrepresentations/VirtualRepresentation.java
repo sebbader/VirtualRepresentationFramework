@@ -6,29 +6,17 @@ import core.controller.utils.VRProp;
 import core.controller.utils.OData2RDF;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.jena.query.Query;
@@ -283,7 +271,14 @@ public class VirtualRepresentation {
                         
                     });                    
                 });            
-            });
+            });     
+            
+            //Import all statements with hasValueProperty
+            dataAcquisition.listStatements(new SimpleSelector(null, hasValue, (RDFNode) null)).toList().forEach((statement) -> {
+            
+                model.add(statement);
+                
+            });            
             
             //If data have be collected from SQL database
             if(collectSQL) {
@@ -349,76 +344,78 @@ public class VirtualRepresentation {
             //Collect OData from ODataServer                       
             StmtIterator iterator = dataAcquisition.listStatements(new SimpleSelector(null, VRProp.HAS_ODATA_SOURCE, (RDFNode) null));
             
-            final Statement statement = iterator.next();
-                
-            System.out.println("Look for " + statement.getSubject().toString());
+            if(iterator.hasNext()) {
+                final Statement statement = iterator.next();
 
-            if(dataAcquisition.listObjectsOfProperty(
-                    VRProp.HAS_ODATA_2_RDF_CONFIG).toList().size()  >0 &&
-                dataAcquisition.listObjectsOfProperty( 
-                    VRProp.HAS_ODATA_2_RDF_CONVERTER).toList().size() > 0)
-            {
+                System.out.println("Look for " + statement.getSubject().toString());
 
-                try {                        
+                if(dataAcquisition.listObjectsOfProperty(
+                        VRProp.HAS_ODATA_2_RDF_CONFIG).toList().size()  >0 &&
+                    dataAcquisition.listObjectsOfProperty( 
+                        VRProp.HAS_ODATA_2_RDF_CONVERTER).toList().size() > 0)
+                {
 
-                    String pathToConverter = dataAcquisition.listObjectsOfProperty(
-                                        VRProp.HAS_ODATA_2_RDF_CONVERTER)
-                                        .next().asLiteral().getString();
+                    try {                        
 
-                    String pathToConfig = dataAcquisition.listObjectsOfProperty(
-                                        VRProp.HAS_ODATA_2_RDF_CONFIG)
-                                        .next().asLiteral().getString();                    
+                        String pathToConverter = dataAcquisition.listObjectsOfProperty(
+                                            VRProp.HAS_ODATA_2_RDF_CONVERTER)
+                                            .next().asLiteral().getString();
+
+                        String pathToConfig = dataAcquisition.listObjectsOfProperty(
+                                            VRProp.HAS_ODATA_2_RDF_CONFIG)
+                                            .next().asLiteral().getString();                    
 
 
-                    String uri = statement.getObject().asLiteral().getString();
-                    System.out.println("Received URI for ODataQuery: " + uri);
+                        String uri = statement.getObject().asLiteral().getString();
+                        System.out.println("Received URI for ODataQuery: " + uri);
 
-                    URL url = new URL(uri);
-                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                    con.setRequestMethod("GET");
-                    con.connect();
+                        URL url = new URL(uri);
+                        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                        con.setRequestMethod("GET");
+                        con.connect();
 
-                    if(con.getResponseCode()==200) {
+                        if(con.getResponseCode()==200) {
 
-                        //Taken from https://stackoverflow.com/a/9856272
-                        InputStream in = con.getInputStream();
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-                        StringBuilder result = new StringBuilder();
-                        String line;
-                        while((line = reader.readLine()) != null) {
-                            result.append(line);
+                            //Taken from https://stackoverflow.com/a/9856272
+                            InputStream in = con.getInputStream();
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                            StringBuilder result = new StringBuilder();
+                            String line;
+                            while((line = reader.readLine()) != null) {
+                                result.append(line);
+                            }
+
+                            //System.out.println(result);
+
+                            File xmlFileTemp = Utilities.writeFile(result.toString(), ".xml", Charset.defaultCharset());
+
+                            System.out.println("Renamed to: " + xmlFileTemp.getParentFile().getAbsolutePath() + "\\datasource.xml");
+
+                            File xmlFile = new File(xmlFileTemp.getParentFile().getAbsolutePath() + "\\datasource.xml");
+
+                            Files.move(xmlFileTemp.toPath(), xmlFile.toPath(), StandardCopyOption.REPLACE_EXISTING);                        
+
+                            File rdfFile = OData2RDF.convert(pathToConverter, xmlFile, pathToConfig);
+
+                            if(rdfFile!=null) {
+                                model.read(rdfFile.getAbsolutePath());                            
+                            }
+
+                        } else {
+
+                            System.out.println("Connection error: " + con.getResponseCode() + ": " + con.getResponseMessage());
+
                         }
-                        
-                        //System.out.println(result);
 
-                        File xmlFileTemp = Utilities.writeFile(result.toString(), ".xml", Charset.defaultCharset());
-                        
-                        System.out.println("Renamed to: " + xmlFileTemp.getParentFile().getAbsolutePath() + "\\datasource.xml");
-                        
-                        File xmlFile = new File(xmlFileTemp.getParentFile().getAbsolutePath() + "\\datasource.xml");
-                        
-                        Files.move(xmlFileTemp.toPath(), xmlFile.toPath(), StandardCopyOption.REPLACE_EXISTING);                        
-                        
-                        File rdfFile = OData2RDF.convert(pathToConverter, xmlFile, pathToConfig);
-                        
-                        if(rdfFile!=null) {
-                            model.read(rdfFile.getAbsolutePath());                            
-                        }
 
-                    } else {
-                        
-                        System.out.println("Connection error: " + con.getResponseCode() + ": " + con.getResponseMessage());
-                        
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
 
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            } else {
-                System.out.println("Config or Converter not found for " + statement.getSubject().toString());
-            }               
+                } else {
+                    System.out.println("Config or Converter not found for " + statement.getSubject().toString());
+                } 
+            }
         }
 
         modelSize = model.size();
@@ -444,7 +441,7 @@ public class VirtualRepresentation {
     /*
      * GETTER UND SETTER METHODEN
      */
-    protected String getName() {
+    public String getName() {
         return name;
     }
 
@@ -510,6 +507,6 @@ public class VirtualRepresentation {
 
     public long getModelSize() {
         return modelSize;
-    }
+    }    
     
 }
