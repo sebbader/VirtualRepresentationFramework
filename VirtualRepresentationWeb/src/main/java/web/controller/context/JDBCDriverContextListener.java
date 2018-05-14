@@ -12,11 +12,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 
 /**
  *
  * @author Jan-Peter.Schmidt
  */
+@WebListener("Registers JDBC Connector for MySQL")
 public class JDBCDriverContextListener implements ServletContextListener {
     
     Driver mysqlDriver;

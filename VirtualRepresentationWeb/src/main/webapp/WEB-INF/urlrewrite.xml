@@ -2,10 +2,10 @@
 <!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN"
         "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
 <urlrewrite>
-    <!--<rule>
+    <rule>
         <from>/test123</from>
         <to>/abc123</to>
-    </rule>-->
+    </rule>
     <rule>
         <condition name="upgrade">websocket*</condition>
         <from>/representations/(\w+)</from>

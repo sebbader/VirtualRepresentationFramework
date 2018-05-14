@@ -214,7 +214,9 @@ public class VirtualRepresentation {
             return true;
             
         } catch(Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            Logger.getLogger(getClass().getName()).log(Level.INFO, "NEW VERSION");
+            Logger.getLogger(getClass().getName()).log(Level.WARNING, e.getMessage());
         }
         
         return false;
@@ -392,13 +394,22 @@ public class VirtualRepresentation {
                             System.out.println("Renamed to: " + xmlFileTemp.getParentFile().getAbsolutePath() + "\\datasource.xml");
 
                             File xmlFile = new File(xmlFileTemp.getParentFile().getAbsolutePath() + "\\datasource.xml");
+                            
+                            int counter = 0;
 
-                            Files.move(xmlFileTemp.toPath(), xmlFile.toPath(), StandardCopyOption.REPLACE_EXISTING);                        
+                            while(!xmlFile.canRead() || !xmlFile.canWrite()) {
+                                Thread.sleep(100);
+                                Logger.getLogger(VirtualRepresentation.class.getName()).log(Level.WARNING, "Cannot read file -> " + xmlFile.getAbsolutePath());
+                                if(counter++ * 100 >= 12000) {
+                                    break;
+                                }
+                            }
+                            Files.move(xmlFileTemp.toPath(), xmlFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
                             File rdfFile = OData2RDF.convert(pathToConverter, xmlFile, pathToConfig);
 
                             if(rdfFile!=null) {
-                                model.read(rdfFile.getAbsolutePath());                            
+                                model.read(rdfFile.getAbsolutePath());
                             }
 
                         } else {
@@ -409,7 +420,7 @@ public class VirtualRepresentation {
 
 
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        Logger.getLogger(getClass().getName()).log(Level.SEVERE, "Error while data colleting." + e.getMessage());
                     }
 
                 } else {
@@ -425,14 +436,12 @@ public class VirtualRepresentation {
             
             try {
                 
-                return QueryExecutionFactory.create(dataAggregation, model).execConstruct();
-                
+                return QueryExecutionFactory.create(dataAggregation, model).execConstruct();                
                 
             } catch(Exception e) {
                 Logger.getLogger(VirtualRepresentation.class.getName()).log(Level.SEVERE, e.getMessage());
             }            
         }
-
 
         return model;
         

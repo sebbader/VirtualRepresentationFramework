@@ -40,9 +40,10 @@ public class Utilities {
         OutputStream out = null;
         int read = 0;
         byte[] bytes = new byte[1024];
-        File file = new File(target + fileDetails.getFileName());
+        File file = File.createTempFile("uploadedFile", fileDetails.getFileName(), folder);
         out = new FileOutputStream(file);
         while ((read = inStream.read(bytes)) != -1) {
+            System.out.println("Writing...");
                 out.write(bytes, 0, read);
         }
         out.flush();

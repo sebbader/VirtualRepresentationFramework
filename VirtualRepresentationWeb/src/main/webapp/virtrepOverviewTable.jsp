@@ -8,6 +8,8 @@
 <%@page import="java.util.Map"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.HashMap"%>
+<%@page import="java.util.SortedSet"%>
+<%@page import="java.util.TreeSet"%>
 <%@page import="core.controller.virtualrepresentations.VirtualRepresentation"%>
 <%@page import="core.controller.virtualrepresentations.VirtualRepresentationManager"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -28,11 +30,14 @@
                         
                     }
                     
-                    Iterator<Entry<String,VirtualRepresentation>> iterator = map.entrySet().iterator();
+                    //Sorting taken from: https://stackoverflow.com/a/14936963
+                    SortedSet<String> sortedKeys = new TreeSet<>(map.keySet());
+                    Iterator<String> iterator = sortedKeys.iterator();
+                    
                     while(iterator.hasNext()) {
                         
-                        Entry<String, VirtualRepresentation> entry = iterator.next();
-                        VirtualRepresentation representation = entry.getValue();
+                        String key = iterator.next();
+                        VirtualRepresentation representation = map.get(key);
                         String name = representation.getClass().getName();
                         String host = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
                         String dataacquisition = " - ";
@@ -80,7 +85,7 @@
                                 + "<td>" + dataacquisition + "</td>"
                                 + "<td>" + dataaggregation + "</td>"
                                 + "<td>" + datamodel + "</td>"
-                                + "<td><a href=\"" + host + "/representations/" + entry.getKey() +"\" target=\"_blank\">" + host + "/representations/" + entry.getKey() +"</a></td>"
+                                + "<td><a href=\"" + host + "/representations/" + key +"\" target=\"_blank\">" + host + "/representations/" + key +"</a></td>"
                                 + "</tr>");                                                
                     }                    
                 %>

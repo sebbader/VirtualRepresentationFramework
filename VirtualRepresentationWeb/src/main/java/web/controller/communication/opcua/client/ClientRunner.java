@@ -23,6 +23,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.eclipse.milo.opcua.sdk.client.OpcUaClient;
@@ -79,6 +80,11 @@ public class ClientRunner {
             endpoints = UaTcpStackClient
                 .getEndpoints(clientExample.getEndpointUrl())
                 .get();
+            
+            logger.log(Level.TRACE, "Endpoints are: ");
+            Arrays.asList(endpoints).forEach(ep -> {
+                logger.log(Level.TRACE, ep);
+            });
 
         } catch (Throwable ex) {
             ex.printStackTrace();

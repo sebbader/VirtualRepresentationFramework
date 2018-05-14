@@ -175,7 +175,7 @@
                                     <label for="validationCustomUsername">Username</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                            <div class="input-group-text" id="inputGroupPrepend">http://${pageContext.request.serverName}:${pageContext.request.localPort}/representations/</div>
+                                            <div class="input-group-text" id="inputGroupPrepend">opctcp://${pageContext.request.serverName}:${pageContext.request.localPort}/representations/</div>
                                             <input type="text" class="form-control" id="avaName" name="avaName" value="10011234"
                                                placeholder="Representationnname" aria-describedby="inputGroupPrepend" required>                                            
                                         </div>

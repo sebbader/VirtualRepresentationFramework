@@ -5,21 +5,20 @@
  */
 package web.controller.context;
 
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import org.eclipse.milo.opcua.sdk.server.OpcUaServer;
+import javax.servlet.annotation.WebListener;
 import org.eclipse.milo.opcua.stack.core.Stack;
-import org.eclipse.milo.opcua.stack.core.types.structured.EndpointDescription;
 import web.controller.communication.opcua.VirtualRepresenationOpcUaServer;
 
 /**
  *
  * @author Jan-Peter.Schmidt
  */
+@WebListener("Starts OPC UA Server for receiving OPC UA calls")
 public class ServerRunner implements ServletContextListener {
     
     public static void main(String args[]) {

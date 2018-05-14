@@ -66,7 +66,7 @@ public class OData2RDF {
             }
             
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Logger.getLogger(OData2RDF.class.getName()).log(Level.SEVERE, "Error von OData2RDF Conversion.");
         }
         
         return null;
