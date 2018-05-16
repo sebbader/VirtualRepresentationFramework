@@ -27,10 +27,12 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.rdf.model.SimpleSelector;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
+import org.apache.jena.rdf.model.impl.StatementImpl;
 
 /**
  * This class provides all methods that are needed to manipulate virtual 
@@ -234,6 +236,8 @@ public class VirtualRepresentation {
     
     public Model collectData() {
         
+        System.out.println("COLLECT DATA()");
+        
         Model model = ModelFactory.createDefaultModel();
         
         //Check if dataAcquisition file exists.
@@ -280,7 +284,7 @@ public class VirtualRepresentation {
             
                 model.add(statement);
                 
-            });            
+            });
             
             //If data have be collected from SQL database
             if(collectSQL) {
@@ -428,6 +432,33 @@ public class VirtualRepresentation {
                 } 
             }
         }
+        
+        //add ancestors to model
+       
+        getChildren().forEach((childName, rep) -> {
+
+            System.out.println("Ancestor");
+            Resource resource = ResourceFactory.createResource(VirtualRepresentationManager.getDomain() + name);
+            Property property = ResourceFactory.createProperty(VirtualRepresentationManager.NS_AVA, "hasChild");
+            Resource childResource = ResourceFactory.createResource(VirtualRepresentationManager.getDomain() + childName);
+
+            Statement stmt = new StatementImpl(resource, property, childResource);
+
+            System.out.println("Add: " + stmt.toString());
+
+            model.add(stmt);
+
+        });
+        
+        if(parent!=null) {
+            
+            Resource resource = ResourceFactory.createResource(VirtualRepresentationManager.getDomain() + name);
+            Property property = ResourceFactory.createProperty(VirtualRepresentationManager.NS_AVA, "hasParent");
+            Resource parentResource = ResourceFactory.createResource(VirtualRepresentationManager.getDomain() + parent.getName());
+            
+            model.add(new StatementImpl(resource, property, parentResource));
+            
+        }
 
         modelSize = model.size();
         System.out.println("New model has size of " + modelSize);
@@ -442,7 +473,7 @@ public class VirtualRepresentation {
                 Logger.getLogger(VirtualRepresentation.class.getName()).log(Level.SEVERE, e.getMessage());
             }            
         }
-
+        
         return model;
         
     }

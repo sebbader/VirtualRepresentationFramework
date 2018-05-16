@@ -10,6 +10,9 @@ import core.controller.utils.VRProp;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.jena.atlas.io.IndentedWriter;
@@ -99,20 +102,25 @@ public class HTMLWriter extends WriterGraphRIOTBase
                     + "</tr>";
 
             //Print all properties of representation
+            List<Statement> statements = new ArrayList<>();
             
-            StmtIterator iterator = model.listStatements(new SimpleSelector(null, hasValue, (RDFNode) null));
+            StmtIterator iteratorVal = model.listStatements(new SimpleSelector(null, hasValue, (RDFNode) null));            
+            StmtIterator iteratorChildren = model.listStatements(new SimpleSelector(null, VRProp.HAS_CHILDREN, (RDFNode) null));
+            StmtIterator iteratorParent = model.listStatements(new SimpleSelector(null, VRProp.HAS_PARENT, (RDFNode) null));
+            
+            statements.addAll(iteratorVal.toList());
+            statements.addAll(iteratorChildren.toList());
+            statements.addAll(iteratorParent.toList());
+            
+            Iterator<Statement> iterator = statements.iterator();
             
             while(iterator.hasNext()) {
 
                 Statement stmt = iterator.next();                
                 String[] unit = {null};
                 
-                System.out.println(stmt.getSubject() + " " + unitOfMeasure);   
-                
                 model.listObjectsOfProperty(stmt.getSubject(), unitOfMeasure)
                         .toList().forEach((RDFNode unitObject) -> {
-
-                    System.out.println("FE");
                     
                     unit[0] = unitObject.toString();
 
@@ -122,9 +130,15 @@ public class HTMLWriter extends WriterGraphRIOTBase
                     unit[0] = "";
                 }
                 
+                String property = stmt.getSubject().getLocalName();
+                if(property==null || property.equals("") && 
+                        !stmt.getSubject().toString().equals(VRProp.HAS_VALUE.toString())) {
+                    property = stmt.getPredicate().getLocalName();
+                }
+                
                 s = s + "<tr>"
-                        + "<td>" + checkForLinks(stmt.getSubject().getLocalName()) + "</td>"
-                        + "<td>" + checkForLinks(stmt.getObject().asLiteral().getString()) + "</td>"
+                        + "<td>" + checkForLinks(property) + "</td>"
+                        + "<td>" + checkForLinks(stmt.getObject().isLiteral() ? stmt.getObject().asLiteral().getString() : stmt.getObject().asResource().toString()) + "</td>"
                         + "<td>" + checkForLinks(unit[0]) + "</td>"
                 + "</tr>";
                 

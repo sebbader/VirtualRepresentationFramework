@@ -48,4 +48,8 @@ public class VRProp {
     
     public static final Property HAS_ODATA_2_RDF_CONFIG = ResourceFactory.createProperty(NAMESPACE, "hasOData2RDFConfig");
     
+    public static final Property HAS_CHILDREN = ResourceFactory.createProperty(NAMESPACE, "hasChild");
+    
+    public static final Property HAS_PARENT = ResourceFactory.createProperty(NAMESPACE, "hasParent");
+    
 }
