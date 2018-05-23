@@ -286,6 +286,13 @@ public class VirtualRepresentation {
                 
             });
             
+            //Import all statements with registered Property
+            dataAcquisition.listStatements(new SimpleSelector(null, VRProp.REGISTERED, (RDFNode) null)).toList().forEach((statement) -> {
+            
+                model.add(statement);
+                
+            });            
+            
             //If data have be collected from SQL database
             if(collectSQL) {
 

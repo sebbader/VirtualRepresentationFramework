@@ -107,10 +107,12 @@ public class HTMLWriter extends WriterGraphRIOTBase
             StmtIterator iteratorVal = model.listStatements(new SimpleSelector(null, hasValue, (RDFNode) null));            
             StmtIterator iteratorChildren = model.listStatements(new SimpleSelector(null, VRProp.HAS_CHILDREN, (RDFNode) null));
             StmtIterator iteratorParent = model.listStatements(new SimpleSelector(null, VRProp.HAS_PARENT, (RDFNode) null));
+            StmtIterator iteratorRegistered = model.listStatements(new SimpleSelector(null, VRProp.REGISTERED, (RDFNode) null));
             
             statements.addAll(iteratorVal.toList());
             statements.addAll(iteratorChildren.toList());
             statements.addAll(iteratorParent.toList());
+            statements.addAll(iteratorRegistered.toList());
             
             Iterator<Statement> iterator = statements.iterator();
             

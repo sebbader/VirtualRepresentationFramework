@@ -52,4 +52,6 @@ public class VRProp {
     
     public static final Property HAS_PARENT = ResourceFactory.createProperty(NAMESPACE, "hasParent");
     
+    public static final Property REGISTERED = ResourceFactory.createProperty(NAMESPACE, "registered");
+    
 }
