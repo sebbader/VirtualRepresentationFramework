@@ -78,7 +78,7 @@ public class VirtualRepresentation {
     private Model dataAcquisition;
     
     /**
-     * 
+     * Contains number of triples in model
      */
     private long modelSize;
     
@@ -107,7 +107,7 @@ public class VirtualRepresentation {
      * @param name Name of the representation. Name should only contain path of URI, not
      * URI itself. E.g. /machine/sensor1 and not http://example.com/machine/sensor1
      * @param parent Representation that contains this representation. E.g. machines contains
-     * sensor1. -> Machine is parent of sensor1. Can be null.
+     * sensor1. Machine is parent of sensor1. Can be null.
      */
     
     protected VirtualRepresentation(String name, VirtualRepresentation parent) {
@@ -141,7 +141,7 @@ public class VirtualRepresentation {
    
     /**
      * Deletes a representation.
-     * @param isAutomaticChildDeletion
+     * @param isAutomaticChildDeletion flag whether children are deleted automatically
      * @return returns true if operation was done sucessfully.
      */
     protected boolean delete(boolean isAutomaticChildDeletion) {
@@ -173,7 +173,6 @@ public class VirtualRepresentation {
         getChildren().put(representation.getName(), representation);
         
     }
-    
     
     /**
      * Method tries to create an model from delivered file and append it to this
@@ -255,9 +254,9 @@ public class VirtualRepresentation {
             String nsCustom = model.getNsURIPrefix(VirtualRepresentationManager.nsPrefixCustom);
 
             //Define needed properties
-            Property hasProperty = ResourceFactory.createProperty(nsAF, "hasProperty");
+            Property hasProperty = ResourceFactory.createProperty(VRProp.Namespaces.SSN, "hasProperty");
             Property hasSQLQuery = ResourceFactory.createProperty(nsAF, "hasSQLQuery");
-            Property hasValue = ResourceFactory.createProperty(nsAF, "hasValue");            
+            Property hasValue = ResourceFactory.createProperty(VRProp.Namespaces.OWL, "hasValue");            
             Property isRoot = ResourceFactory.createProperty(nsAF,"isRoot");
             
             dataAcquisition.listSubjectsWithProperty(isRoot).toList().forEach((subject) -> {
@@ -446,7 +445,7 @@ public class VirtualRepresentation {
 
             System.out.println("Ancestor");
             Resource resource = ResourceFactory.createResource(VirtualRepresentationManager.getDomain() + name);
-            Property property = ResourceFactory.createProperty(VirtualRepresentationManager.NS_AVA, "hasChild");
+            Property property = ResourceFactory.createProperty(VRProp.Namespaces.SOSA, "hosts");
             Resource childResource = ResourceFactory.createResource(VirtualRepresentationManager.getDomain() + childName);
 
             Statement stmt = new StatementImpl(resource, property, childResource);
@@ -460,7 +459,7 @@ public class VirtualRepresentation {
         if(parent!=null) {
             
             Resource resource = ResourceFactory.createResource(VirtualRepresentationManager.getDomain() + name);
-            Property property = ResourceFactory.createProperty(VirtualRepresentationManager.NS_AVA, "hasParent");
+            Property property = ResourceFactory.createProperty(VRProp.Namespaces.SOSA, "hostedBy");
             Resource parentResource = ResourceFactory.createResource(VirtualRepresentationManager.getDomain() + parent.getName());
             
             model.add(new StatementImpl(resource, property, parentResource));

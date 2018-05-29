@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package core.controller.mediatypes;
 
 import java.util.ArrayList;
@@ -11,9 +6,9 @@ import java.util.Map;
 import javax.ws.rs.core.MediaType;
 
 /**
- * Extends the @see(javax.ws.rs.core.MediaType) with prefdefined media types
+ * Extends the {@link javax.ws.rs.core.MediaType MediaType} with prefdefined media types
  * that are neccessary for LD-Communication. See w3.org for further information.
- * @link(https://www.w3.org/2008/01/rdf-media-types)
+ * https://www.w3.org/2008/01/rdf-media-types
  * 
  * @author Jan-Peter.Schmidt
  */
@@ -54,6 +49,12 @@ public class LDMediaTypes extends MediaType {
         
     }
     
+    /**
+     * Converts Jena media type string to official media type string.
+     * @param mediaType common mediaType to convert
+     * @return String of MediaType in Jena media type format
+     */
+    
     public static final String convertToJenaMediaType(String mediaType) {
         
         switch(mediaType) {
@@ -77,12 +78,23 @@ public class LDMediaTypes extends MediaType {
         
     }
     
+    /**
+     * Returns the suffix for a file of a certain media type
+     * @param mediaType MediaType for that suffix is needed.
+     * @return Suffix for mediatype
+     */
+    
     public static final String getEndungen(String mediaType) {
         
         return typesEndungen.get(mediaType);
         
     }
     
+    /**
+     * Returns MediaType by given suffix.
+     * @param endung Suffix for that MediaType is needed.
+     * @return MediaType for suffix
+     */
     public static final String getMediaTypeByEndung(String endung) {
         
         for(Map.Entry<String,String> entry : typesEndungen.entrySet()) {
@@ -96,6 +108,12 @@ public class LDMediaTypes extends MediaType {
         return null;
         
     }    
+    
+    /**
+     * checks if given string is valid media type
+     * @param contentType MediaTypeString to check
+     * @return true if given String is registered in {@link LDMediaTypes LDMediaTypes} or {@link MediaType MediaType}
+     */
     
     public static boolean isRDFMediaType(String contentType) {
         

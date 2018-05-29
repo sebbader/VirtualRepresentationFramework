@@ -18,7 +18,8 @@ import java.util.logging.Logger;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 
 /**
- *
+ * This class provides useful helping methods that are needed somehwere in
+ * the project
  * @author Jan-Peter.Schmidt
  */
 public class Utilities {
@@ -26,11 +27,10 @@ public class Utilities {
     /**
      * Utility method to save InputStream data to target location/file
      * 
-     * @param inStream
-     *            - InputStream to be saved
-     * @param fileDetails
-     * @return 
-     * @throws java.io.IOException 
+     * @param inStream InputStream to be saved
+     * @param fileDetails Further details on the file stored in inStream.
+     * @return File that contains content of inStream
+     * @throws java.io.IOException Throws IO Exception if file is not accesible
      */
     public static File saveToFile(InputStream inStream, FormDataContentDisposition fileDetails) throws IOException {
 
@@ -52,6 +52,11 @@ public class Utilities {
         return file;
     }
     
+    /**
+     * Returns the suffix of a file
+     * @param file File for suffix determination
+     * @return Suffix of file
+     */
     public static String getEndung(File file) {
         
         if(file!=null) {
@@ -63,7 +68,13 @@ public class Utilities {
         
     }
     
-    //Taken from https://stackoverflow.com/a/326440
+    /**
+     * Taken from https://stackoverflow.com/a/326440
+     * Converts a File to a String
+     * @param path Path to file
+     * @param encoding Encoding of file
+     * @return String that is contained in file
+     */
     public static String readFile(String path, Charset encoding) {
         
         try {
@@ -77,6 +88,13 @@ public class Utilities {
         
     }
     
+    /**
+     * Writes File from String
+     * @param fileString String that will be written to file
+     * @param endung suffix of file
+     * @param encoding encoding of file
+     * @return File with specified properties that contains fileString.
+     */
     public static File writeFile(String fileString, String endung, Charset encoding) {
         
         try {

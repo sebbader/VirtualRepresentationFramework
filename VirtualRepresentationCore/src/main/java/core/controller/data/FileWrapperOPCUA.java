@@ -5,7 +5,6 @@
  */
 package core.controller.data;
 
-import com.mysql.jdbc.Util;
 import core.controller.utils.Utilities;
 import java.io.File;
 import java.nio.charset.Charset;
@@ -14,10 +13,11 @@ import org.eclipse.milo.opcua.stack.core.serialization.UaDecoder;
 import org.eclipse.milo.opcua.stack.core.serialization.UaEncoder;
 import org.eclipse.milo.opcua.stack.core.serialization.codecs.GenericDataTypeCodec;
 import org.eclipse.milo.opcua.stack.core.serialization.codecs.SerializationContext;
-import org.eclipse.milo.opcua.stack.core.types.builtin.unsigned.UInteger;
 
 /**
- *
+ * This class stores {@link java.io.File Files} for OPC UA binary encoding and
+ * therefore provides mechanims to encode and decode a file.
+ * 
  * @author Jan-Peter.Schmidt
  */
 public class FileWrapperOPCUA {
@@ -25,6 +25,10 @@ public class FileWrapperOPCUA {
     private File file;
     private String endung;
     
+    /**
+     *
+     * @param file File to be encoded.
+     */
     public FileWrapperOPCUA(File file) {
         
         this.file = file;
@@ -32,6 +36,9 @@ public class FileWrapperOPCUA {
         
     }
     
+    /**
+     * Implementation for File encoding and decoding.
+     */
     public static class Codec extends GenericDataTypeCodec<FileWrapperOPCUA> {
         @Override
         public Class<FileWrapperOPCUA> getType() {

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package core.controller.utils;
 
 import java.io.File;
@@ -14,11 +9,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * This class provides a conversion possibility from OData to RDF.
  * @author Jan-Peter.Schmidt
  */
 public class OData2RDF {
     
+    /**
+     * This methods calls does a shell call on a library that does OData to RDF conversion.
+     * This is done by using an xml configuration file. We reccomend using RMLMapper for this.
+     * @param jarPath Path to conversion archive (.jar)
+     * @param xmlFile File to convert
+     * @param configPath Path to configuration xml.
+     * @return File with RDF Triples that are derviced from XML File.
+     */
     public static File convert(String jarPath, File xmlFile, String configPath) {
         
         /**
@@ -45,13 +48,13 @@ public class OData2RDF {
             argList.add("-o");
             argList.add(rdfFile.getAbsolutePath());
             
-            System.out.println(String.join(" ", argList));
+            /*System.out.println(String.join(" ", argList));
             
             System.out.println("RDF File: " + rdfFile.getAbsolutePath());
             System.out.println("XML File: " + xmlFile.getParentFile().getAbsolutePath());
             System.out.println("Config file: " + configPath);
             
-            System.out.println("Converted file stored under: " + rdfFile.getAbsolutePath());
+            System.out.println("Converted file stored under: " + rdfFile.getAbsolutePath());*/
 
             ProcessBuilder pb = new ProcessBuilder(argList);
             pb.inheritIO();

@@ -5,19 +5,16 @@
  */
 package core.controller.data;
 
-import com.mysql.jdbc.Driver;
 import core.controller.virtualrepresentations.VirtualRepresentationManager;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.ResourceFactory;
-import java.util.logging.Logger;
 
 /**
- *
+ * This class stores credentials for a database.
  * @author Jan-Peter.Schmidt
  */
 public class DBAccess {
@@ -27,11 +24,22 @@ public class DBAccess {
     private String user;
     private String password;
     
+    /**
+     * Default contstructor
+     */
     public DBAccess() {
         
         
     }
     
+    /**
+     * This function takes needed credentials for database connection
+     * from a supplied {@link org.apache.jena.rdf.model.Model Model}.
+     * Therefore it uses predefined rdf predicates from {@link core.controller.utils.VRProp VRProp}.
+     * After derivation credentials are stored.
+     * @param model Model that contains information for a connection.
+     * @return Connection from derived credentials.
+     */
     public Connection deriveFromModel(Model model) {
         
         System.out.println("Derive form model " + model.getGraph().size());

@@ -5,7 +5,6 @@
  */
 package core.controller.model.writer;
 
-import core.controller.virtualrepresentations.VirtualRepresentationManager;
 import core.controller.utils.VRProp;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -21,8 +20,6 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
-import org.apache.jena.rdf.model.ResIterator;
-import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.rdf.model.SimpleSelector;
 import org.apache.jena.rdf.model.Statement;
@@ -36,12 +33,11 @@ import org.apache.jena.sparql.util.Context;
 import org.apache.jena.vocabulary.RDFS;
 
 /**
- *
+ * Converts RDF Graphs to HTML
  * @author Jan-Peter.Schmidt
  */
 public class HTMLWriter extends WriterGraphRIOTBase
     {
-        // Ignore externally provided prefix map and baseURI
         @Override
         public void write(OutputStream out, Graph graph, PrefixMap prefixMap, String baseURI, Context context)
         {
@@ -75,6 +71,14 @@ public class HTMLWriter extends WriterGraphRIOTBase
             
         }
         
+        /**
+         * Derives from given graph elements and transforms them to HTML.
+         * Therefore it searches for properties like {@value core.controller.utils.VRProp#HAS_VALUE},
+         * {@value core.controller.utils.VRProp#HOSTS},{@value core.controller.utils.VRProp#HOSTED_BY},
+         * {@value core.controller.utils.VRProp#REGISTERED}
+         * @param graph Graph that should be shown in HTML
+         * @return String of HTML that is created from the graph content
+         */
         private static String getHTML(Graph graph) {
             
             Model model = ModelFactory.createModelForGraph(graph);
@@ -84,6 +88,9 @@ public class HTMLWriter extends WriterGraphRIOTBase
             String headline = "Undefined";
             
             Property hasValue = VRProp.HAS_VALUE;
+            
+            System.out.println(hasValue);
+            
             Property unitOfMeasure = ResourceFactory.createProperty("https://w3id.org/saref/", "Unit_of_measure");
             
             try {
@@ -105,8 +112,8 @@ public class HTMLWriter extends WriterGraphRIOTBase
             List<Statement> statements = new ArrayList<>();
             
             StmtIterator iteratorVal = model.listStatements(new SimpleSelector(null, hasValue, (RDFNode) null));            
-            StmtIterator iteratorChildren = model.listStatements(new SimpleSelector(null, VRProp.HAS_CHILDREN, (RDFNode) null));
-            StmtIterator iteratorParent = model.listStatements(new SimpleSelector(null, VRProp.HAS_PARENT, (RDFNode) null));
+            StmtIterator iteratorChildren = model.listStatements(new SimpleSelector(null, VRProp.HOSTS, (RDFNode) null));
+            StmtIterator iteratorParent = model.listStatements(new SimpleSelector(null, VRProp.HOSTED_BY, (RDFNode) null));
             StmtIterator iteratorRegistered = model.listStatements(new SimpleSelector(null, VRProp.REGISTERED, (RDFNode) null));
             
             statements.addAll(iteratorVal.toList());
@@ -153,6 +160,11 @@ public class HTMLWriter extends WriterGraphRIOTBase
             
         }
         
+        /**
+         * @param headline Headline that is printed into title element in header.
+         * @return String of template header for html
+         */
+        
         private static String getHTMLTemplateTop(String headline) {
             
             return "<!DOCTYPE html>\n" +
@@ -180,6 +192,11 @@ public class HTMLWriter extends WriterGraphRIOTBase
             
         }
         
+        /**
+         * 
+         * @return String of template footer for html.
+         */
+        
         private static String getHTMLTemplateBottom() {
             
             return "		</div>\n" +
@@ -188,6 +205,13 @@ public class HTMLWriter extends WriterGraphRIOTBase
             
         }
         
+        
+        /**
+         * Function that checks if in String is a link contained and if yes provides html link
+         * elements to this string so that it is clickable.
+         * @param toBeChecked String that potentially contains a link
+         * @return if a link was contained: String embedded in <a>-Element. Else the pure strung.
+         */
         private static String checkForLinks(String toBeChecked) {
             
             if(toBeChecked.contains("http")) {

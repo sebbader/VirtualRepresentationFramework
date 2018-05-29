@@ -5,8 +5,6 @@
  */
 package core.controller.model.writer;
 
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.LangBuilder;
 import org.apache.jena.riot.RDFFormat;
@@ -14,11 +12,14 @@ import org.apache.jena.riot.RDFLanguages;
 import org.apache.jena.riot.RDFWriterRegistry;
 
 /**
- *
+ * Registers new HTML Writer for RDF Konversion
  * @author Jan-Peter.Schmidt
  */
 public class HTMLRegistry {
     
+    /**
+     * Registers new HTML Writer
+     */
     public static void registerHTMLWriter() {
         
         Lang lang = LangBuilder.create("HTML", "text/html").addFileExtensions("html").build();        
