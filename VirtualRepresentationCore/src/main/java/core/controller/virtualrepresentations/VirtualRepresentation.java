@@ -193,7 +193,7 @@ public class VirtualRepresentation {
 
             Model model = ModelFactory.createDefaultModel();           
             
-            //It's a function of the representation
+            //It's a SPARQL Query -> dataAggregation
             if(file.getAbsolutePath().endsWith(".rq")) {
                 
                 String query = Utilities.readFile(file.getPath(), Charset.defaultCharset());
@@ -207,6 +207,7 @@ public class VirtualRepresentation {
             }
 
             System.out.println(model.getGraph().size());
+            //Start asynchronous dataCollection to calculate size of model
             new Thread(() -> {
             
                 modelSize = collectData().size();
@@ -229,6 +230,9 @@ public class VirtualRepresentation {
      * described in that file. These data are stored in a model and returned.
      * Datacollection starts with transferring static data from acuqisition file.
      * Afterwards SQL-Queries are executed and results converted to rdf and stored.
+     * If ODataSource is given the queries to that source will be executed and afterwards
+     * converted to RDF via RMLMapper.jar
+     * All relatives are stored to RDF Graph automatically.
      * @return Model with all available data that are specified in data acquistion
      * file.
      */
@@ -250,7 +254,7 @@ public class VirtualRepresentation {
             model.setNsPrefixes(dataAcquisition.getNsPrefixMap());            
             
             //Define properties and Namespaces
-            String nsAF = VirtualRepresentationManager.NS_AVA;
+            String nsAF = VirtualRepresentationManager.NS_VR;
             String nsCustom = model.getNsURIPrefix(VirtualRepresentationManager.nsPrefixCustom);
 
             //Define needed properties
@@ -361,6 +365,7 @@ public class VirtualRepresentation {
 
                 System.out.println("Look for " + statement.getSubject().toString());
 
+                //Check if all neccessary information for XML to RDF conversion exists.
                 if(dataAcquisition.listObjectsOfProperty(
                         VRProp.HAS_ODATA_2_RDF_CONFIG).toList().size()  >0 &&
                     dataAcquisition.listObjectsOfProperty( 
@@ -375,8 +380,7 @@ public class VirtualRepresentation {
 
                         String pathToConfig = dataAcquisition.listObjectsOfProperty(
                                             VRProp.HAS_ODATA_2_RDF_CONFIG)
-                                            .next().asLiteral().getString();                    
-
+                                            .next().asLiteral().getString();
 
                         String uri = statement.getObject().asLiteral().getString();
                         System.out.println("Received URI for ODataQuery: " + uri);
@@ -397,8 +401,7 @@ public class VirtualRepresentation {
                                 result.append(line);
                             }
 
-                            //System.out.println(result);
-
+                            //Create XML file to convert
                             File xmlFileTemp = Utilities.writeFile(result.toString(), ".xml", Charset.defaultCharset());
 
                             System.out.println("Renamed to: " + xmlFileTemp.getParentFile().getAbsolutePath() + "\\datasource.xml");
@@ -407,6 +410,7 @@ public class VirtualRepresentation {
                             
                             int counter = 0;
 
+                            //Wait until datasource is readable - neccesary for multi-access - Timeout 12 seconds
                             while(!xmlFile.canRead() || !xmlFile.canWrite()) {
                                 Thread.sleep(100);
                                 Logger.getLogger(VirtualRepresentation.class.getName()).log(Level.WARNING, "Cannot read file -> " + xmlFile.getAbsolutePath());
@@ -439,8 +443,7 @@ public class VirtualRepresentation {
             }
         }
         
-        //add ancestors to model
-       
+        //add ancestors to model      
         getChildren().forEach((childName, rep) -> {
 
             System.out.println("Ancestor");
@@ -456,6 +459,7 @@ public class VirtualRepresentation {
 
         });
         
+        //add parent to model
         if(parent!=null) {
             
             Resource resource = ResourceFactory.createResource(VirtualRepresentationManager.getDomain() + name);
@@ -466,6 +470,7 @@ public class VirtualRepresentation {
             
         }
 
+        //Store model size so that it has not to be recalculated.
         modelSize = model.size();
         System.out.println("New model has size of " + modelSize);
         

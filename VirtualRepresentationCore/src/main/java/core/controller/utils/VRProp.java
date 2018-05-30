@@ -24,7 +24,7 @@ public class VRProp {
         
         public static final String OWL = "http://www.w3.org/2002/07/owl#";
         public static final String SSN = "http://www.w3.org/ns/ssn/";
-        public static final String VRPROP = VirtualRepresentationManager.NS_AVA;    
+        public static final String VRPROP = VirtualRepresentationManager.NS_VR;    
         public static final String RDF = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
         public static final String RDFS = "http://www.w3.org/2000/01/rdf-schema#";
         public static final String XSD = "http://www.w3.org/2001/XMLSchema#";

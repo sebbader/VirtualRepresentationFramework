@@ -48,7 +48,7 @@ public class DBAccess {
         
         try {
             
-            String ns = VirtualRepresentationManager.NS_AVA;
+            String ns = VirtualRepresentationManager.NS_VR;
             
             Property propConnection = ResourceFactory.createProperty(ns, "connection");
             Property propSchema = ResourceFactory.createProperty(ns, "schema");

@@ -17,11 +17,9 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Iterator;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.ext.com.google.common.io.Files;
-import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
@@ -30,26 +28,51 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.rdf.model.SimpleSelector;
 import org.apache.jena.rdf.model.Statement;
-import org.apache.jena.rdf.model.impl.LiteralImpl;
 import org.apache.jena.rdf.model.impl.ResourceImpl;
 
 /**
+ * This class is responsible for managing interactions with all 
+ * virtual representations. Incoming CRUD-Operations on uris 
+ * are sent to this manager and exceuted by him
+ * 
  * @author Jan-Peter.Schmidt
  */
 public class VirtualRepresentationManager {
     
+    /**
+     * HashMap that contains all registered virtual representations
+     */
     private static HashMap<String, VirtualRepresentation> registeredRepresentations = new HashMap<>();
     
+    /**
+     * RDF model that is shown in manager representation - also called "bookmark"
+     */
     private static Model registry;
     
+    /**
+     * Path where temp file can be stored
+     */
     public static final String TEMP_PATH = "virtrepframework\\temp\\";
     
-    public static final String NS_AVA = "http://www.virtualrepresentation-framework.edu/";
+    /**
+     * Domain of the framework, used for defining own predicates for rdf graphs.
+     */
+    public static final String NS_VR = "http://www.virtualrepresentation-framework.edu/";
     
+    /**
+     * Individual domain of user
+     */
     public static String domain = "";
     
+    /**
+     * Prefix of NS_VR namespace
+     */
     public static String nsPrefixCustom = "virtrep";
     
+    /**
+     * Stuff that need to be done before Framework is used.
+     * Manager representation is created.
+     */
     static {
         
         try {
@@ -110,6 +133,13 @@ public class VirtualRepresentationManager {
 
     }
     
+    /**
+     * Function that returns a representation by its name. The name
+     * is everything that is in uri after /representations
+     * @param name name of representation. Name is part of the uri afte /representations
+     * @return Instance of virtual representation with supplied name
+     */
+    
     public static VirtualRepresentation getRepresentation(String name) {
         
         System.out.println("Looking for name: " + name);               
@@ -124,6 +154,13 @@ public class VirtualRepresentationManager {
         
     }
     
+    /**
+     * Function to register virtual representation. Registration is mandatory for newly created 
+     * virtual representations.
+     * @param representation Instance of VirtualRepresentaion that should be registered
+     * @param name Name of representation under which it is stored.
+     */
+    
     public static void register(VirtualRepresentation representation, String name) {
         
         Logger.getAnonymousLogger().log(Level.INFO, "Registered Representation \"" + name + "\"");
@@ -131,6 +168,11 @@ public class VirtualRepresentationManager {
         
     }
     
+    /**
+     * Function to deregister virtual representation. This is automatically done after deletion
+     * 
+     * @param name Name of representation that should be deregistered
+     */
     public static void deregister(String name) {
         
         System.out.println("Deregister " + name + " - " + registeredRepresentations.size());
@@ -138,6 +180,11 @@ public class VirtualRepresentationManager {
         
     }
     
+    /**
+     * Function to check if a representation exists
+     * @param name Name of representation to check
+     * @return true if registry of manager contains representation with supplied name, else false
+     */
     public static boolean exists(String name) {
         
         name = checkName(name);
@@ -145,25 +192,22 @@ public class VirtualRepresentationManager {
         
     }
     
+    /**
+     * Function to check if a representation exists
+     * @param representation instance of representation to check
+     * @return true if registry of manager contains supplied instance, else false
+     */    
     public static boolean exists(VirtualRepresentation representation) {
         
         return registeredRepresentations.containsValue(representation);
         
     }
     
-    public static URI getURIFromName(String name) {
-        
-        name = VirtualRepresentationManager.checkName(name);
-        
-        if(registeredRepresentations.containsKey(name)) {
-            
-            return URI.create("http://localhost:8080/representations/" + name);
-            
-        }
-        
-        return null;
-        
-    }   
+    /**
+     * This functions derives a parent from an uri. This is done by path splitting.
+     * @param name Name of representation for that the parent will be derivced
+     * @return Instance of parent representation, if one is found. Else null.
+     */
 
     public static VirtualRepresentation getParentFromURI(String name) {
         
@@ -224,6 +268,12 @@ public class VirtualRepresentationManager {
         
     }
     
+    /**
+     * Checks if a supplied name is a variable or a representation
+     * @param name Name of possible variable
+     * @return Instance of virtualRepresentation if name is not a variable, else null
+     */
+    
     public static VirtualRepresentation isVariable(String name) {
         
         name = checkName(name);
@@ -246,6 +296,14 @@ public class VirtualRepresentationManager {
         return null;
         
     }
+    
+    /**
+     * Creates a new representation by name.
+     * @param name Name of new representation 
+     * @return 0: if an error occured (500); 
+          1: VirtualRepresentation created, no content added (204); 
+          2: VirtualRepresentation created, content added (201)
+     */
     
     public static int create(String name) {
         
@@ -311,10 +369,10 @@ public class VirtualRepresentationManager {
     
     /**
      * 
-     * @param name
-     * @param accept
+     * @param name Name of virtual representation that should be read.
+     * @param accept accepted media type.
      * @return -1: VirtualRepresentation not found (404), 0 any other error (500), 
- 1 on success (representation), 2 on success (variable).
+     *   1 on success (representation), 2 on success (variable).
      */
        
     public static ReadResponse read(String name, String accept) {
@@ -417,7 +475,7 @@ public class VirtualRepresentationManager {
     
     /**
      * Updates the representation instance for @see(avaName) with information in @see(file)  
-     * @param avaName Name of representation
+     * @param name Name of representation
      * @param file File that contains model.
      * @return -2: if VirtualRepresentation was not found (404); 
          -1: if File is null (204);
@@ -425,15 +483,15 @@ public class VirtualRepresentationManager {
           1: if update was successful (200).
      */
     
-    public static int update(String avaName, File file) {
+    public static int update(String name, File file) {
         
         System.out.println("UPDATE");
         
-        VirtualRepresentation representation = VirtualRepresentationManager.getRepresentation(avaName);
+        VirtualRepresentation representation = VirtualRepresentationManager.getRepresentation(name);
         
         //Representation nicht gefunden
         if(representation==null) {
-            System.out.println("Update: Representation not found " + avaName);
+            System.out.println("Update: Representation not found " + name);
             return -2;
         }
         
@@ -450,9 +508,9 @@ public class VirtualRepresentationManager {
                 if(clazz!=null && !clazz.getName().equals(representation.getClass().getName())) {
                     
                     System.out.println("Changed Representation type");
-                    VirtualRepresentationManager.delete(avaName);                    
-                    VirtualRepresentationManager.create(avaName, file);
-                    representation = VirtualRepresentationManager.getRepresentation(avaName);
+                    VirtualRepresentationManager.delete(name);                    
+                    VirtualRepresentationManager.create(name, file);
+                    representation = VirtualRepresentationManager.getRepresentation(name);
 
                 }
 
@@ -479,14 +537,14 @@ public class VirtualRepresentationManager {
     
     /**
      * 
-     * @param avaName
+     * @param name Name of representation to delete.
      * @return -1: VirtualRepresentation not found (404), 0 on any other error (500
      *          1 on success (200)
      */
     
-    public static int delete(String avaName) {
+    public static int delete(String name) {
         
-        VirtualRepresentation representation = VirtualRepresentationManager.getRepresentation(avaName);
+        VirtualRepresentation representation = VirtualRepresentationManager.getRepresentation(name);
         
         if(representation==null) {
             return -1;
@@ -522,6 +580,13 @@ public class VirtualRepresentationManager {
         return file;
         
     }
+    
+    /**
+     * This functions grabs the model of a virtual representation and searches
+     * for the defined java class (defined by predicate virtrep:javaType)
+     * @param file
+     * @return 
+     */
 
     private static Class<? extends VirtualRepresentation> getClassFromModel(File file) {
         
@@ -532,8 +597,8 @@ public class VirtualRepresentationManager {
                 Model model = ModelFactory.createDefaultModel();
                 model.read(file.getAbsolutePath());
                 
-                Property isRoot = ResourceFactory.createProperty(NS_AVA, "isRoot");
-                Property javaType = ResourceFactory.createProperty(NS_AVA, "javaType");
+                Property isRoot = ResourceFactory.createProperty(NS_VR, "isRoot");
+                Property javaType = ResourceFactory.createProperty(NS_VR, "javaType");
                 
                 model.listSubjectsWithProperty(isRoot).toList().forEach((subject) -> {
                     
