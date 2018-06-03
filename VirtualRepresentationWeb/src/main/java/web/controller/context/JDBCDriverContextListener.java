@@ -15,7 +15,7 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
 /**
- *
+ * This class is called on server startup an initializes the mysql driver.
  * @author Jan-Peter.Schmidt
  */
 @WebListener("Registers JDBC Connector for MySQL")

@@ -32,6 +32,10 @@ import org.eclipse.milo.opcua.stack.core.util.SelfSignedCertificateGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Class from Milo example that defines KeyStore for SSL Connection.
+ */
+
 class KeyStoreLoader {
 
     private static final Pattern IP_ADDR_PATTERN = Pattern.compile(

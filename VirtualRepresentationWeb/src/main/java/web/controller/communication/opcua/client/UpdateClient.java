@@ -19,6 +19,7 @@ import org.eclipse.milo.opcua.stack.core.types.builtin.StatusCode;
 import org.eclipse.milo.opcua.stack.core.types.builtin.Variant;
 
 /**
+ * OPC UA Client that sends an update request to the opc ua server.
  * @author Jan-Peter.Schmidt
  */
 public class UpdateClient implements OPCUAClient {

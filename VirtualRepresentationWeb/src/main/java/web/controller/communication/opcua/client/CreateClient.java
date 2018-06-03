@@ -28,7 +28,7 @@ import org.eclipse.milo.opcua.stack.core.types.structured.AddNodesItem;
 import org.eclipse.milo.opcua.stack.core.types.structured.AddNodesResponse;
 
 /**
- *
+ * OPC UA Client that sends an addNodeRequest to the server.
  * @author Jan-Peter.Schmidt
  */
 public class CreateClient implements OPCUAClient {

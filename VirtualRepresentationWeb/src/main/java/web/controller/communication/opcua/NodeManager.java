@@ -29,8 +29,9 @@ import org.eclipse.milo.opcua.stack.core.types.structured.DeleteReferencesRespon
 import org.eclipse.milo.opcua.stack.core.types.structured.ResponseHeader;
 
 /**
- *
- * @author Jan-Peter.Schmidt
+ * This class is a change class from the Milo example. In this class the create and
+ * delete operations from clients are forwarded to the Reprsentation Manager and the
+ * answers are converted to OPC UA answers.
  */
 public class NodeManager extends NodeManagementServices implements WebCommunication {
     
@@ -41,6 +42,14 @@ public class NodeManager extends NodeManagementServices implements WebCommunicat
         
     }
     
+    /**
+     * Overriden onAddNodes Method. This method fetches an OPC UA call for Node creation,
+     * converts it to a create operation for the virtual representation manager. Afterwards
+     * the answer is reconverted to opc ua.
+     *
+     * @param service
+     * @throws UaException 
+     */
     @Override
     public void onAddNodes(ServiceRequest<AddNodesRequest, AddNodesResponse> service) throws UaException {
         try {
@@ -97,6 +106,11 @@ public class NodeManager extends NodeManagementServices implements WebCommunicat
         }        
         
     }
+    /*
+     * Overriden onDeleteNodes Method. This method fetches an OPC UA call for Node deletion,
+     * converts it to a delete operation for the virtual representation manager. Afterwards
+     * the answer is reconverted to opc ua.    
+     */
 
     @Override
     public void onDeleteNodes(ServiceRequest<DeleteNodesRequest, DeleteNodesResponse> service) throws UaException {
@@ -148,10 +162,21 @@ public class NodeManager extends NodeManagementServices implements WebCommunicat
         
     }
     
+    /**
+     * Unimplemented.
+     * @param service
+     * @throws UaException 
+     */
+    
     @Override
     public void onAddReferences(ServiceRequest<AddReferencesRequest, AddReferencesResponse> service) throws UaException {
         throw new UaException(new StatusCode(StatusCodes.Bad_ServiceUnsupported));
     }
+    /*
+     * Unimplemented.
+     * @param service
+     * @throws UaException 
+     */    
 
     @Override
     public void onDeleteReferences(ServiceRequest<DeleteReferencesRequest, DeleteReferencesResponse> service) throws UaException {

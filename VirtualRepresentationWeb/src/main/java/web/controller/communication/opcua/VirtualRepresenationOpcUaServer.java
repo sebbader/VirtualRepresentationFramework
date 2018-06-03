@@ -43,6 +43,13 @@ import static org.eclipse.milo.opcua.sdk.server.api.config.OpcUaServerConfig.USE
 import static org.eclipse.milo.opcua.sdk.server.api.config.OpcUaServerConfig.USER_TOKEN_POLICY_USERNAME;
 import static org.eclipse.milo.opcua.sdk.server.api.config.OpcUaServerConfig.USER_TOKEN_POLICY_X509;
 
+/**
+ * Taken and updated server implmenetation of the opc ua server
+ * example from Milo examples. This class defines a server implementation
+ * and starts up a server.
+ * 
+ */
+
 public class VirtualRepresenationOpcUaServer {
 
     static {

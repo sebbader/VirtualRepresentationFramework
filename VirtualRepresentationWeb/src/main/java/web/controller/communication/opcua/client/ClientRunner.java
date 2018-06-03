@@ -36,6 +36,16 @@ import org.eclipse.milo.opcua.stack.core.types.structured.EndpointDescription;
 import org.eclipse.milo.opcua.stack.core.util.CryptoRestrictions;
 import static org.eclipse.milo.opcua.stack.core.types.builtin.unsigned.Unsigned.uint;
 
+/**
+ * This class is an updated version of the ClientRunner example of 
+ * the Milo Example.
+ * 
+ * This class is able to run different implementations of the opc
+ * ua client. It is possible to run a create, read, update or delete
+ * client.
+ * 
+ */
+
 public class ClientRunner {
 
     static {

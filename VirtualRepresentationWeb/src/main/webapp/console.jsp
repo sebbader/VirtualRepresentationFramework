@@ -78,7 +78,7 @@
                             <h3>HTTP Request</h3>
                             <form class="bd-example" enctype="multipart/form-data" id="form">
                                 <div class="form-group">
-                                    <label for="validationCustomUsername">Username</label>
+                                    <label for="validationCustomUsername">URI</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <div class="input-group-text" id="inputGroupPrepend">http://${pageContext.request.serverName}:${pageContext.request.localPort}/representations/</div>
@@ -124,7 +124,7 @@
                             <h3>Websocket</h3>
                             <form class="bd-example" enctype="multipart/form-data" id="form">
                                 <div class="form-group">
-                                    <label for="validationCustomUsername">Username</label>
+                                    <label for="validationCustomUsername">URI</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <div class="input-group-text" id="inputGroupPrepend">ws://${pageContext.request.serverName}:${pageContext.request.localPort}/representations/</div>
@@ -172,7 +172,7 @@
                             <h3>OPC UA</h3>
                             <form class="bd-example" enctype="multipart/form-data" id="form">
                                 <div class="form-group">
-                                    <label for="validationCustomUsername">Username</label>
+                                    <label for="validationCustomUsername">URI</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <div class="input-group-text" id="inputGroupPrepend">opctcp://${pageContext.request.serverName}:${pageContext.request.localPort}/representations/</div>

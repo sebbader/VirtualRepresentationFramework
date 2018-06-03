@@ -52,6 +52,12 @@ import org.eclipse.milo.opcua.stack.core.util.FutureUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Change class from Milo example. This class forwards the read and write (update)
+ * operations from a client to the virtual representation framework. Afterwards the
+ * answer from the manager is converted to a opc ua answer.
+ * 
+ */
 
 public class NamespaceManager implements Namespace, WebCommunication {
 
@@ -93,6 +99,16 @@ public class NamespaceManager implements Namespace, WebCommunication {
         }
     }
 
+    /**
+     * This method receives a read request from a opc ua client. Afterwards
+     * it is converted to a read operation for a VirtualRepresentationManager.
+     * The answer of him is reconverted to opc ua and sent back to the client.
+     * @param context
+     * @param maxAge
+     * @param timestamps
+     * @param readValueIds 
+     */
+    
     @Override
     public void read(ReadContext context, Double maxAge, 
         TimestampsToReturn timestamps, List<ReadValueId> readValueIds) {
@@ -166,6 +182,11 @@ public class NamespaceManager implements Namespace, WebCommunication {
         
     }
 
+    /*
+     * This method receives a write (update) request from a opc ua client. Afterwards
+     * it is converted to a write operation for a VirtualRepresentationManager.
+     * The answer of him is reconverted to opc ua and sent back to the client.
+    */    
     @Override
     public void write(WriteContext context, List<WriteValue> writeValues) {
                 

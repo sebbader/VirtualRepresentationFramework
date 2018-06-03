@@ -22,7 +22,11 @@ import org.eclipse.milo.opcua.sdk.client.api.identity.IdentityProvider;
 import org.eclipse.milo.opcua.stack.core.security.SecurityPolicy;
 import org.eclipse.milo.opcua.stack.core.types.builtin.StatusCode;
 
-
+/**
+ * This interface is taken from the OPCUAClient for milo client examples. 
+ * It provides neccesary information to run a client.
+ * @author Jan-Peter.Schmidt
+ */
 public interface OPCUAClient {
 
     default String getEndpointUrl() {

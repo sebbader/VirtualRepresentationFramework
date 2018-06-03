@@ -30,6 +30,11 @@ import org.eclipse.milo.opcua.stack.core.util.SelfSignedCertificateGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * KeyStore Loader implementation from Milo example for OPC UA client.
+ * @author Jan-Peter.Schmidt
+ */
+
 class KeyStoreLoader {
 
     private static final Pattern IP_ADDR_PATTERN = Pattern.compile(

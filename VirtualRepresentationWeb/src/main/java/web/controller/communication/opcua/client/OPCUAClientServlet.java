@@ -36,6 +36,11 @@ import org.eclipse.milo.opcua.stack.core.types.builtin.StatusCode;
 /**
  * Adapted from:
  * https://www.tutorialspoint.com/servlets/servlets-first-example.htm
+ * 
+ * This class is a servlet implementation that is used by the html form
+ * of the client implementation. It creates a new opc uc client with the 
+ * form data from html.
+ * 
  * @author Jan-Peter.Schmidt
  */
 

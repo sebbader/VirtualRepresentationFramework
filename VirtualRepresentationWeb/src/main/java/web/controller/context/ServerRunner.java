@@ -15,7 +15,7 @@ import org.eclipse.milo.opcua.stack.core.Stack;
 import web.controller.communication.opcua.VirtualRepresenationOpcUaServer;
 
 /**
- *
+ * This class is called on server startup and starts the OPC UA Server.
  * @author Jan-Peter.Schmidt
  */
 @WebListener("Starts OPC UA Server for receiving OPC UA calls")

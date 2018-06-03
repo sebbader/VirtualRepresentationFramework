@@ -35,7 +35,7 @@ import org.eclipse.milo.opcua.stack.core.types.structured.DeleteNodesItem;
 import org.eclipse.milo.opcua.stack.core.types.structured.DeleteNodesResponse;
 
 /**
- *
+ * OPC UA client that sends delete request to opc ua server.
  * @author Jan-Peter.Schmidt
  */
 public class DeleteClient implements OPCUAClient {
