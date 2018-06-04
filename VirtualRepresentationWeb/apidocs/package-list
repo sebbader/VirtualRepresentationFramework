@@ -1,0 +1,6 @@
+interfaces
+web.controller.communication.http
+web.controller.communication.opcua
+web.controller.communication.opcua.client
+web.controller.communication.websockets
+web.controller.context
