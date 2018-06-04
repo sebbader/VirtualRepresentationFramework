@@ -103,10 +103,6 @@ public class NamespaceManager implements Namespace, WebCommunication {
      * This method receives a read request from a opc ua client. Afterwards
      * it is converted to a read operation for a VirtualRepresentationManager.
      * The answer of him is reconverted to opc ua and sent back to the client.
-     * @param context
-     * @param maxAge
-     * @param timestamps
-     * @param readValueIds 
      */
     
     @Override

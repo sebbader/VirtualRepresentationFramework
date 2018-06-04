@@ -55,8 +55,8 @@ public class WebSocketCommunication implements WebCommunication {
     /**
      * After a session is opened the uri is saved for later 
      * communications.
-     * @param session
-     * @throws IOException 
+     * @param session Current session
+     * @throws IOException Throws IO Exception if connection cannot be established
      */
     @OnOpen
     public void onOpen(Session session) throws IOException {
@@ -134,7 +134,7 @@ public class WebSocketCommunication implements WebCommunication {
      * operation the user has excecuted and calls the corresponding method.
      * @param session Current session
      * @param message Message that the user has sent.
-     * @throws IOException 
+     * @throws IOException Throws IOException on error.
      */
     
     @OnMessage
@@ -181,7 +181,6 @@ public class WebSocketCommunication implements WebCommunication {
     /**
      * This method is called on session close.
      * @param session Current Session
-     * @throws IOException 
      */
 
     @OnClose
@@ -210,7 +209,8 @@ public class WebSocketCommunication implements WebCommunication {
      * Executes and returns value of {@link core.controller.virtualrepresentations.VirtualRepresentationManager#create(String name, File file)}
      * @param name Name of representation that should be created
      * @param file File that should be uploaded to representation
-     * @return 
+     * @return Returns internal statuscode for creation, see {@link core.controller.virtualrepresentations.VirtualRepresentationManager#create(String name, File file)} for more details.
+     * 
      */
 
     @Override
@@ -222,7 +222,7 @@ public class WebSocketCommunication implements WebCommunication {
      * Executes and returns value of {@link core.controller.virtualrepresentations.VirtualRepresentationManager#read(String name, String accept)}
      * @param name Name of representation that should be created
      * @param accept Accepted Mediy Type
-     * @return 
+     * @return Returns internal statuscode for creation, see {@link core.controller.virtualrepresentations.VirtualRepresentationManager#read(String name, String accept)} for more details
      */    
     @Override
     public ReadResponse executeRead(String name, String accept) {
@@ -233,7 +233,7 @@ public class WebSocketCommunication implements WebCommunication {
      * Executes and returns value of {@link core.controller.virtualrepresentations.VirtualRepresentationManager#update(String name, File file)}
      * @param name Name of representation that should be created
      * @param file File that should be uploaded to representation
-     * @return 
+     * @return Returns internal statuscode for creation, see {@link core.controller.virtualrepresentations.VirtualRepresentationManager#update(String name, File file)} for more details
      */    
     
     @Override
@@ -244,7 +244,7 @@ public class WebSocketCommunication implements WebCommunication {
     /**
      * Executes and returns value of {@link core.controller.virtualrepresentations.VirtualRepresentationManager#delete(String name)}
      * @param name Name of representation that should be created
-     * @return 
+     * @return Returns internal statuscode for creation, see {@link core.controller.virtualrepresentations.VirtualRepresentationManager#delete(String name)} for more details
      */    
     @Override
     public int executeDelete(String name) {

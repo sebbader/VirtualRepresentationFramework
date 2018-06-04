@@ -47,8 +47,6 @@ public class NodeManager extends NodeManagementServices implements WebCommunicat
      * converts it to a create operation for the virtual representation manager. Afterwards
      * the answer is reconverted to opc ua.
      *
-     * @param service
-     * @throws UaException 
      */
     @Override
     public void onAddNodes(ServiceRequest<AddNodesRequest, AddNodesResponse> service) throws UaException {
@@ -164,8 +162,6 @@ public class NodeManager extends NodeManagementServices implements WebCommunicat
     
     /**
      * Unimplemented.
-     * @param service
-     * @throws UaException 
      */
     
     @Override
@@ -174,8 +170,6 @@ public class NodeManager extends NodeManagementServices implements WebCommunicat
     }
     /*
      * Unimplemented.
-     * @param service
-     * @throws UaException 
      */    
 
     @Override
